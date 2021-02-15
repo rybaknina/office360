@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Office plan</title>
+    <meta charset="utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="map" style="background-color:White;"></div>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script>
+    var image = './image/plan';
+    let mapSW = L.point(0, 768),
+        mapNE = L.point(768, 0);
+    var map = new L.Map('map').setView(L.latLng(0, 0), 2);
+    L.tileLayer(image + '/{z}-{x}-{y}.jpg', {
+        maxZoom: 2, minZoom: 0, opacity: 1.0, zIndex: 1, noWrap: true,
+        crs: L.CRS.Simple
+    }).addTo(map);
+    map.setMaxBounds(new L.LatLngBounds(
+        map.unproject(mapSW, map.getMaxZoom()),
+        map.unproject(mapNE, map.getMaxZoom())
+    ));
+
+    // draggable marker for view pixels and latitude and longitude - uncomment addTo(map) for adding a new markers
+    let marker = L.marker(L.latLng(81.77364, -131.13281), {
+        draggable: true
+    })
+        .addTo(map)
+    .openPopup();
+
+    marker.bindPopup('');
+    marker.on('dragend', function(e) {
+        marker.getPopup().setContent(marker.getLatLng().toString() + '<br>'
+            + map.project(marker.getLatLng(), map.getMaxZoom()).toString()
+        ).openOn(map);
+    } );
+
+    // icons
+
+    var personIcon = L.icon({
+        iconUrl: './image/person.png',
+        iconSize: [40, 40],
+        iconAnchor: [21, 40],
+        popupAnchor: [-3, -76]
+    });
+
+    let personInfo =
+        '<strong> Person Name </strong>' +
+        '<br>'
+        + "<a href='" + 'https://senla-portal.secure.force.com/portal/BasicPage?currentApp=PageProfile' + "' target=\"_blank\">Person Info on Portal</a>" +
+        '<br>';
+    let marker1 = L.marker(map.unproject(L.point(236, 332), map.getMaxZoom()), {icon: personIcon})
+        .bindPopup(personInfo);
+    let marker2 = L.marker(map.unproject(L.point(140, 257), map.getMaxZoom()), {icon: personIcon})
+        .bindPopup('Info 2 example'); //.addTo(map);
+    let marker3 = L.marker(map.unproject(L.point(442, 82), map.getMaxZoom()))
+        .bindPopup('Info 3 example');
+    let marker4 = L.marker(map.unproject(L.point(534, 154), map.getMaxZoom()))
+        .bindPopup('Info 4 example');
+    let layer_1 = [marker1, marker2];
+    let layer_2 = [marker3, marker4];
+
+    let lg_units = L.layerGroup(layer_1).addTo(map);
+    let lg_locate = L.layerGroup(layer_2).addTo(map);
+    let overlays = {
+        "Room 1" : lg_units,
+        "Room 2" : lg_locate
+    };
+
+    L.control.layers(null, overlays).addTo(map);
+</script>
+</body>
+</html>

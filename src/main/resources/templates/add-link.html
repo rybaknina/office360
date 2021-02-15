@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Add Link</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/shards.min.css">
+</head>
+<body>
+<div class="container my-5">
+    <h2 class="mb-5">New Link</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="#" th:action="@{/addlink}" th:object="${panoramaLink}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="panoramaId" class="col-form-label">Panorama Id</label>
+                        <input type="number" th:field="*{panoramaId}" class="form-control" id="panoramaId" placeholder="Panorama Id">
+                        <span th:if="${#fields.hasErrors('panoramaId')}" th:errors="*{panoramaId}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="linkId" class="col-form-label">Link Id</label>
+                        <input type="number" th:field="*{linkId}" class="form-control" id="linkId" placeholder="Link Id">
+                        <span th:if="${#fields.hasErrors('linkId')}" th:errors="*{linkId}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="positionX" class="col-form-label">position X</label>
+                        <input type="number" step=".01" th:field="*{positionX}" class="form-control" id="positionX" placeholder="position X">
+                        <span th:if="${#fields.hasErrors('positionX')}" th:errors="*{positionX}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="positionY" class="col-form-label">position Y</label>
+                        <input type="number" step=".01" th:field="*{positionY}" class="form-control" id="positionY" placeholder="position Y">
+                        <span th:if="${#fields.hasErrors('positionY')}" th:errors="*{positionY}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="positionZ" class="col-form-label">position Z</label>
+                        <input type="number" step=".01" th:field="*{positionZ}" class="form-control" id="positionZ" placeholder="position Z">
+                        <span th:if="${#fields.hasErrors('positionZ')}" th:errors="*{positionZ}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="imageScale" class="col-form-label">image scale</label>
+                        <input type="text" th:field="*{imageScale}" class="form-control" id="imageScale" placeholder="image scale">
+                        <span th:if="${#fields.hasErrors('imageScale')}" th:errors="*{imageScale}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="imageLink" class="col-form-label">image link</label>
+                        <input type="text" th:field="*{imageLink}" class="form-control" id="imageLink" placeholder="image link">
+                        <span th:if="${#fields.hasErrors('imageLink')}" th:errors="*{imageLink}" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mt-5">
+                        <input type="submit" class="btn btn-primary" value="Add Link">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
