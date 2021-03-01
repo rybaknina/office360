@@ -23,7 +23,7 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script>
     var image = './image/plan';
-    let mapSW = L.point(0, 768),
+    var mapSW = L.point(0, 768),
         mapNE = L.point(768, 0);
     var map = new L.Map('map').setView(L.latLng(0, 0), 2);
     L.tileLayer(image + '/{z}-{x}-{y}.jpg', {
@@ -36,7 +36,7 @@
     ));
 
     // draggable marker for view pixels and latitude and longitude - uncomment addTo(map) for adding a new markers
-    let marker = L.marker(L.latLng(81.77364, -131.13281), {
+    var marker = L.marker(L.latLng(81.77364, -131.13281), {
         draggable: true
     })
         .addTo(map)
@@ -58,25 +58,25 @@
         popupAnchor: [-3, -76]
     });
 
-    let personInfo =
+    var personInfo =
         '<strong> Person Name </strong>' +
         '<br>'
         + "<a href='" + 'https://senla-portal.secure.force.com/portal/BasicPage?currentApp=PageProfile' + "' target=\"_blank\">Person Info on Portal</a>" +
         '<br>';
-    let marker1 = L.marker(map.unproject(L.point(236, 332), map.getMaxZoom()), {icon: personIcon})
+    var marker1 = L.marker(map.unproject(L.point(236, 332), map.getMaxZoom()), {icon: personIcon})
         .bindPopup(personInfo);
-    let marker2 = L.marker(map.unproject(L.point(140, 257), map.getMaxZoom()), {icon: personIcon})
+    var marker2 = L.marker(map.unproject(L.point(140, 257), map.getMaxZoom()), {icon: personIcon})
         .bindPopup('Info 2 example'); //.addTo(map);
-    let marker3 = L.marker(map.unproject(L.point(442, 82), map.getMaxZoom()))
+    var marker3 = L.marker(map.unproject(L.point(442, 82), map.getMaxZoom()))
         .bindPopup('Info 3 example');
-    let marker4 = L.marker(map.unproject(L.point(534, 154), map.getMaxZoom()))
+    var marker4 = L.marker(map.unproject(L.point(534, 154), map.getMaxZoom()))
         .bindPopup('Info 4 example');
-    let layer_1 = [marker1, marker2];
-    let layer_2 = [marker3, marker4];
+    var layer_1 = [marker1, marker2];
+    var layer_2 = [marker3, marker4];
 
-    let lg_units = L.layerGroup(layer_1).addTo(map);
-    let lg_locate = L.layerGroup(layer_2).addTo(map);
-    let overlays = {
+    var lg_units = L.layerGroup(layer_1).addTo(map);
+    var lg_locate = L.layerGroup(layer_2).addTo(map);
+    var overlays = {
         "Room 1" : lg_units,
         "Room 2" : lg_locate
     };

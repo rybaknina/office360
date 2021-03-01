@@ -1,6 +1,8 @@
 let viewer, container;
+var personInfo;
 
 container = document.querySelector('#container');
+personInfo = document.querySelector('#person-info');
 
 viewer = new PANOLENS.Viewer({
     container: container,
@@ -10,18 +12,19 @@ viewer = new PANOLENS.Viewer({
     autoRotateActivationDuration: 5000
 });
 
+let panoramaArray = [];
+let infospotArray = [];
+
 for (let panorama of panoramas) {
-    // some bug with duplicate and rewrite info - have to think about another dynamic variable (Nin personal opinion)
-    window["panorama" + panorama.id] = new PANOLENS.ImagePanorama(panorama.imagePanorama);
+    panoramaArray[panorama.id] = new PANOLENS.ImagePanorama(panorama.imagePanorama);
 
     for (let person of panorama.persons) {
         if (person.active === true) {
 
-            window["infospot" + person.id] = new PANOLENS.Infospot(150, PANOLENS.DataImage.Info);
-            window["infospot" + person.id].position.set(person.positionX, person.positionY, person.positionZ);
+            infospotArray[person.id] = new PANOLENS.Infospot(150, PANOLENS.DataImage.Info);
+            infospotArray[person.id].position.set(person.positionX, person.positionY, person.positionZ);
 
-            let personInfo = document.getElementById("person-container").getElementsByClassName("person-info")[0];
-
+            // think about font-size and photo of the employee
             personInfo.innerHTML =
                 '<strong>' + person.firstName + ' ' + person.lastName + '</strong>' +
                 '<br>'
@@ -32,22 +35,23 @@ for (let panorama of panoramas) {
                 + 'skype: ' + person.skype +
                 '<br>'
                 + 'addition info: ' + person.info;
-            window["infospot" + person.id].addHoverElement(document.getElementById('person-container'), 200);
-            window["panorama" + panorama.id].add(window["infospot" + person.id]);
 
-            window["infospot" + person.id].addEventListener('hoverenter', function () {
-                window["infospot" + person.id].lockHoverElement();
+            infospotArray[person.id].addHoverElement(personInfo, 200);
+            panoramaArray[panorama.id].add(infospotArray[person.id]);
+
+            infospotArray[person.id].addEventListener('hoverenter', function () {
+                infospotArray[person.id].lockHoverElement();
             });
-            window["infospot" + person.id].addEventListener('hoverenter', function () {
-                window["infospot" + person.id].unlockHoverElement();
+            infospotArray[person.id].addEventListener('hoverenter', function () {
+                infospotArray[person.id].unlockHoverElement();
             });
         }
     }
-    viewer.add(window["panorama" + panorama.id]);
+    viewer.add(panoramaArray[panorama.id]);
 }
 
 for (let panoramaLink of panoramaLinks) {
-    window["panorama" + panoramaLink.panoramaId].link(window["panorama" + panoramaLink.linkId],
+    panoramaArray[panoramaLink.panoramaId].link(panoramaArray[panoramaLink.linkId],
         new THREE.Vector3(panoramaLink.positionX, panoramaLink.positionY, panoramaLink.positionZ),
         panoramaLink.imageScale, panoramaLink.imageLink);
 }
